@@ -13,7 +13,6 @@ fn main(
 ) {
     let key_hash = ecrecover::secp256k1::PubKey::from_unified(pub_key);
     
-    //let valid_signature = std::ecdsa_secp256k1::verify_signature(signature, hashed_message);
     assert(key_hash.verify_sig(signature, hashed_message));
     
     assert(polynomial_commitment == std::hash::pedersen(polynomial)[0])
