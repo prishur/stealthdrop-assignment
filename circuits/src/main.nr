@@ -20,14 +20,15 @@ fn main(
     let address = key_hash.ecrecover(signature, hashed_message);
     assert(evaluate_polynomial(polynomial, address)==0);
 
-    assert(nullifier == std::hash::blake2s(signature));
+    let sig_hash = std::hash::blake2s(signature);
+    assert(nullifier == sig_hash);
 }
 
 fn evaluate_polynomial(polynomial: [Field; CANDIDATES + 1], x: Field) -> Field {
   let mut evaluation = 0;
   let mut mult = 1;
   for item in polynomial {
-    evaulation = evaluation + mult*item;
+    evaluation = evaluation + mult*item;
     mult = mult*x;
   }
   evaluation
