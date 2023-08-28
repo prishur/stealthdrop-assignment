@@ -11,11 +11,25 @@ fn main(
   polynomial_commitment: pub Field,
   nullifier: pub [u8; 32],
 ) {
-  // Write your main logic here
+    let key_hash = ecrecover::secp256k1::PubKey::from_unified(pub_key);
+    
+    //let valid_signature = std::ecdsa_secp256k1::verify_signature(signature, hashed_message);
+    assert(key.verify_sig(signature, hashed_message));
+    let address = key_hash.ecrecover(signature, hashed_message);
+    
+    //TODO check polyonmial commitment
+    assert(evaluate_polynomial(polynomial, address)==0);
+    assert(nullifier == std::hash::blake2s(signature));
 }
 
 fn evaluate_polynomial(polynomial: [Field; CANDIDATES + 1], x: Field) -> Field {
-  // Write logic to evaluate polynomial here
+  let mut evaluation = 0;
+  let mut mult = 1;
+  for item in polynomial {
+    evaulation = evaluation + mult*item;
+    mult = mult*x;
+  }
+  evaluation
 }
 
 #[test]
