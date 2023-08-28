@@ -14,11 +14,13 @@ fn main(
     let key_hash = ecrecover::secp256k1::PubKey::from_unified(pub_key);
     
     //let valid_signature = std::ecdsa_secp256k1::verify_signature(signature, hashed_message);
-    assert(key.verify_sig(signature, hashed_message));
-    let address = key_hash.ecrecover(signature, hashed_message);
+    assert(key_hash.verify_sig(signature, hashed_message));
     
-    //TODO check polyonmial commitment
+    assert(polynomial_commitment == std::hash::pedersen(polynomial)[0])
+
+    let address = key_hash.ecrecover(signature, hashed_message);
     assert(evaluate_polynomial(polynomial, address)==0);
+
     assert(nullifier == std::hash::blake2s(signature));
 }
 
