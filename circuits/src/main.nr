@@ -12,10 +12,10 @@ fn main(
   nullifier: pub [u8; 32],
 ) {
     let key_hash = ecrecover::secp256k1::PubKey::from_unified(pub_key);
-    
+
     assert(key_hash.verify_sig(signature, hashed_message));
     
-    assert(polynomial_commitment == std::hash::pedersen(polynomial)[0])
+    assert(polynomial_commitment == std::hash::pedersen(polynomial)[0]);
 
     let address = key_hash.ecrecover(signature, hashed_message);
     assert(evaluate_polynomial(polynomial, address)==0);
